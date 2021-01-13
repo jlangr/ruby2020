@@ -1,3 +1,5 @@
+require 'date'
+
 class Auto
   attr_reader :RPM
 
@@ -52,3 +54,52 @@ describe TargetClass do
   end
 end
 
+describe "given some context" do
+  describe "when some event occurs" do
+    it "then can be verified" do
+
+    end
+  end
+end
+
+Agile_Java = "Agile Java"
+Patron_Id = 1
+
+class Library
+  def borrow(a, b)
+    return DateTime.new(2021, 1, 20)
+  end
+
+  def return_material(x, y)
+  end
+
+  def available?(m)
+    true
+  end
+end
+
+describe('given a checked-out material') do
+  let(:library) { Library.new }
+
+  before(:each) do
+    @due_date = library.borrow(Agile_Java, Patron_Id)
+  end
+
+  describe 'when returned late' do
+    before(:each) do
+      library.return_material(Agile_Java, @due_date + 1)
+    end
+
+    it 'is marked as available' do
+      expect(library.available? Agile_Java).to be true
+    end
+
+    it 'generates a late fine' do
+      # ...
+    end
+
+    it 'notifies patrons with hold' do
+      # ...
+    end
+  end
+end

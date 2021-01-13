@@ -101,6 +101,7 @@ RSpec.configure do |config|
 end
 
 require_relative "../lib/samples/target_class"
+require_relative "../lib/samples/recent_file_list"
 require_relative "../lib/portfolio/portfolio"
 require_relative "../lib/portfolio/invalid_sale_error"
 require_relative "../lib/util/name_normalizer"
