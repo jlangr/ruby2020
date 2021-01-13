@@ -1,7 +1,3 @@
-require "rspec"
-require "../lib/portfolio"
-require "../lib/invalid_sale_error"
-
 describe Portfolio do
   let(:portfolio) { Portfolio.new }
 

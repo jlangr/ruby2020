@@ -1,5 +1,3 @@
-require '../lib/target_class'
-
 class Auto
   attr_reader :RPM
 
