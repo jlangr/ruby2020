@@ -106,3 +106,8 @@ require_relative "../lib/portfolio/portfolio"
 require_relative "../lib/portfolio/invalid_sale_error"
 require_relative "../lib/util/name_normalizer"
 require_relative "../lib/util/roman"
+require_relative "../lib/video/movie"
+require_relative "../lib/video/rental"
+require_relative "../lib/video/customer"
+
+#Dir["../lib/video/*.rb"].each {|file| require_relative file }
