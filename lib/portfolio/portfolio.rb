@@ -1,4 +1,6 @@
 class Portfolio
+  attr_accessor :service
+
   def initialize
     @holdings = Hash.new
   end
@@ -29,5 +31,11 @@ class Portfolio
 
   def [](symbol)
     @holdings.has_key?(symbol) ? @holdings[symbol] : 0
+  end
+
+  def value
+    @holdings.keys.inject(0) do |acc, symbol|
+      acc + service.price(symbol) * self[symbol]
+    end
   end
 end
