@@ -12,7 +12,7 @@ end
 describe Portfolio do
   let(:portfolio) { Portfolio.new }
   before() do
-    portfolio.service = StubStockService.new
+    portfolio.service = double
   end
 
   context "when created" do
@@ -55,6 +55,7 @@ describe Portfolio do
     end
 
     it "has value of share price" do
+      expect(portfolio.service).to receive(:price).with(APPLE).and_return(CURRENT_APPLE_PRICE)
       expect(portfolio.value).to equal CURRENT_APPLE_PRICE * 42
     end
   end
@@ -74,6 +75,8 @@ describe Portfolio do
     end
 
     it "sums total of symbol values" do
+      expect(portfolio.service).to receive(:price).with(APPLE).and_return(CURRENT_APPLE_PRICE)
+      expect(portfolio.service).to receive(:price).with(QUALCOMM).and_return(CURRENT_QCOM_PRICE)
       expect(portfolio.value).to equal 20 * CURRENT_APPLE_PRICE + 10 * CURRENT_QCOM_PRICE
     end
   end
