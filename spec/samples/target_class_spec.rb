@@ -1,5 +1,53 @@
 require 'date'
 
+class GreenerGrass
+  attr_accessor :answer
+
+  def homebody_method(some_value)
+    result = do_stuff(@some_self_value)
+    do_more_stuff(result)
+    @answer
+  end
+
+  def do_stuff(some_value)
+  end
+
+  def do_more_stuff(some_result)
+  end
+end
+
+class WrongPlace2
+  def initialize
+    @some_self_value = 42
+  end
+
+  def some_public_behavior
+    result = GreenerGrass.new
+                         .homebody_method(@some_self_value)
+    # ...
+  end
+end
+
+class WrongPlace
+  def initialize
+    @some_self_value = 42
+  end
+
+  def some_public_behavior
+    result = some_envious_method
+    # ...
+  end
+
+  private
+
+  def some_envious_method
+    there = GreenerGrass.new
+    result = there.do_stuff(@some_self_value)
+    there.do_more_stuff(result)
+    there.answer
+  end
+end
+
 class Auto
   attr_reader :RPM
 
@@ -75,6 +123,29 @@ class Library
 
   def available?(m)
     true
+  end
+end
+
+describe "exception handling" do
+  it("does stuff") do
+    expect {
+      t = TargetClass.new
+      t.handle_something
+    }.to raise_error(StandardError)
+  end
+
+  it("does else stuff") do
+    expect {
+      t = TargetClass.new
+      t.handle_something_else
+    }.to raise_error(StandardError)
+  end
+
+  it("does repetition stuff") do
+    #    expect {
+      t = TargetClass.new
+      t.handle_repetition
+    #    }.to raise_error(StandardError)
   end
 end
 
