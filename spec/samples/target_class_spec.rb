@@ -78,6 +78,46 @@ class Library
   end
 end
 
+describe "rpec stuff" do
+  it "supports stubs" do
+    weather_service = double
+    allow(weather_service).to receive(:temperature).and_return(34)
+    expect(weather_service.temperature).to eq(34)
+  end
+  it "supports alternate form 1" do
+    weather_service = double
+    allow(weather_service).to receive(:temperature) { 34 }
+    expect(weather_service.temperature).to eq(34)
+  end
+  it "supports alternate form 2" do
+    weather_service = double
+    allow(weather_service).to receive_messages(:temperature => 34, :pressure => 29.04)
+    expect(weather_service.temperature).to eq(34)
+  end
+  it "supports compressed form 2" do
+    weather_service = double(:temperature => 34)
+    expect(weather_service.temperature).to eq(34)
+  end
+  it "clarifies the difference between expect and allow" do
+    weather_service = double
+    allow(weather_service).to receive(:temperature) { 34 }
+  end
+  it "clarifies the difference between expect and allow" do
+    weather_service = double
+    expect(weather_service).to receive(:temperature).with("Des Moines") { 34 }
+    expect(weather_service).to receive(:temperature).with("Miami") { 67 }
+
+    expect(weather_service.temperature("Des Moines")).to eq(34)
+    expect(weather_service.temperature("Miami")).to eq(67)
+  end
+  it "demonstrates matchers" do
+    service = double
+    expect(service).to receive(:pressure).with(kind_of(String)) { 67 }
+
+    service.pressure("adsf")
+  end
+end
+
 describe('given a checked-out material') do
   let(:library) { Library.new }
 
