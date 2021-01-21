@@ -9,11 +9,9 @@ class GreenerGrass
     @answer
   end
 
-  def do_stuff(some_value)
-  end
+  def do_stuff(some_value) end
 
-  def do_more_stuff(some_result)
-  end
+  def do_more_stuff(some_result) end
 end
 
 class WrongPlace2
@@ -118,8 +116,7 @@ class Library
     return DateTime.new(2021, 1, 20)
   end
 
-  def return_material(x, y)
-  end
+  def return_material(x, y) end
 
   def available?(m)
     true
@@ -142,10 +139,10 @@ describe "exception handling" do
   end
 
   it("does repetition stuff") do
-    #    expect {
+    expect {
       t = TargetClass.new
-      t.handle_repetition
-    #    }.to raise_error(StandardError)
+      t.handle_with_function_argument
+    }.to raise_error(StandardError)
   end
 end
 
@@ -173,4 +170,27 @@ describe('given a checked-out material') do
       # ...
     end
   end
+
+  describe Dictionary do
+    let(:dictionary) { Dictionary.new }
+    let(:auditor_spy) { spy("auditor") }
+
+    before(:each) do
+      dictionary.auditor = auditor_spy
+    end
+
+    it "allows adding words" do
+      dictionary.auditor = auditor_spy
+      dictionary.add("smelt", "a small fish")
+      expect(dictionary.definition("smelt")).to eq "a small fish"
+    end
+
+    it "logs audit record on add" do
+      auditor_spy = spy(auditor)
+      dictionary.auditor = auditor_spy
+      dictionary.add("smelt", "a small fish")
+      expect(auditor_spy).to have_received(:log).with("added to dictionary")
+    end
+  end
 end
+

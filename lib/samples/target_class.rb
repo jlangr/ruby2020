@@ -5,6 +5,12 @@ class X
   end
 end
 
+class Formats
+  def self.log_for_file(msg)
+    "#{Time.now}: #{System}-#{Module} ERROR #{truncate(msg, 80)}"
+  end
+end
+
 class DiagError < StandardError
   def initialize(msg="")
     super
@@ -58,18 +64,20 @@ class TargetClass
     end
   end
 
-  def handle_repetition
+  def handle_with_function_argument
     begin
       do_diag_op
     rescue DiagError => e
-      puts "RESCUE"
-      log_and_rethrow(e, self.method(:log_to_file))
+      log_and_reraise(e.message, Formats.method(:log_for_file))
     end
   end
 
-  def log_to_file(msg)
-    "#{Time.now}: #{System}-#{Module} ERROR #{msg.truncate(80)}"
+  def log_and_reraise(message, format_fn)
+    err_msg = format_fn.call(message)
+    log(err_msg)
+    raise StandardError.new(err_msg)
   end
+
 
   def log_to_console(msg)
     "#{Time.now}: #{System}-#{Module} ERROR #{msg}"
@@ -77,13 +85,8 @@ class TargetClass
 
   private
 
-  def log_and_rethrow(e, format)
-    puts "LOG AND RETHROW >#{e.msg}<"
-    err_msg = format.call(e.msg)
-
-    puts "LOGGING"
-    log(err_msg)
-    raise StandardError.new(err_msg)
+  def truncate(string, max)
+    string.length > max ? "#{string[0...max]}..." : string
   end
 
   def formatted_error_message(e)
@@ -108,5 +111,28 @@ class TargetClassRefactored
   def do_some_smaller_behavior
     x = X.new
     x.do_stuff
+  end
+end
+
+class ProductionAuditor
+  def log(msg)
+    raise NotImplementedError
+  end
+end
+
+class Dictionary
+  attr_accessor :auditor
+  def initialize
+    @definitions = Hash.new
+    @auditor = ProductionAuditor.new
+  end
+
+  def add(word, definition)
+    @definitions[word] = definition
+    @auditor.log("added to dictionary")
+
+  end
+  def definition(word)
+    @definitions[word]
   end
 end
