@@ -186,7 +186,7 @@ describe('given a checked-out material') do
     end
 
     it "logs audit record on add" do
-      auditor_spy = spy(auditor)
+      auditor_spy = spy("auditor")
       dictionary.auditor = auditor_spy
       dictionary.add("smelt", "a small fish")
       expect(auditor_spy).to have_received(:log).with("added to dictionary")
